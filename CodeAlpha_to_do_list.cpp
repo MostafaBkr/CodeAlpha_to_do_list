@@ -123,7 +123,7 @@ void menu() {
 
 int main() {
     TaskManager user_task_list;
-    user_task_list.load_tasks("C:\ Users\ awaad\ OneDrive\ Desktop \ My Projects \ C++ \ to_do_list.txt");
+    user_task_list.load_tasks("to_do_list.txt");
     int choice = 6;
     do {
         menu();
@@ -142,7 +142,7 @@ int main() {
             user_task_list.remove_task();
             break;
         case 5:
-            user_task_list.save_tasks("C:\ Users\ awaad\ OneDrive\ Desktop \ My Projects \ C++ \ to_do_list.txt");
+            user_task_list.save_tasks("to_do_list.txt");
             cout << "Exiting..." << endl;
             break;
         case 6:
