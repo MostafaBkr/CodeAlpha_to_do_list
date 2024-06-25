@@ -90,7 +90,7 @@ void menu() {
 
 int main() {
     TaskManager user_task_list;
-    int choice;
+    int choice = 5;
     do {
         menu();
         cin >> choice; cout << endl;
