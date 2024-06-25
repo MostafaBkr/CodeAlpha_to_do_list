@@ -22,14 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */    
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 using namespace std;
 
 class TaskManager {
 private:
-    vector<string> task_list;
-    vector<bool> completed;
+    vector <string> task_list;
+    vector <bool> completed;
 
 public:
     void insert_task() {
@@ -45,8 +46,13 @@ public:
     void view_tasks() const {
         cout << "\nTasks:" << endl;
         for (size_t i = 0; i < task_list.size(); ++i) {
-            cout << i + 1 << ". " << task_list[i]
-                << (completed[i] ? " [Completed]" : "") << endl;
+            cout << i + 1 << ". " << task_list[i];
+            if (completed[i] == true) {
+                cout << " [Completed]" << endl;
+            }
+            else {
+                cout << endl;
+            }
         }
     }
 
@@ -76,6 +82,31 @@ public:
             cout << "Invalid task number." << endl;
         }
     }
+    void load_tasks(const string& filepath) {
+        ifstream file(filepath);
+        if (file.is_open()) {
+            string task;
+            bool status;
+            while (getline(file, task)) {
+                file >> status;
+                file.ignore();
+                task_list.push_back(task);
+                completed.push_back(status);
+            }
+            file.close();
+        }
+        else {
+            cout << "No existing task file found. Starting fresh." << endl;
+        }
+    }
+    void save_tasks(const string& filepath) const {
+        ofstream file(filepath);
+        for (size_t i = 0; i < task_list.size(); ++i) {
+            file << task_list[i] << endl;
+            file << completed[i] << endl;
+        }
+        file.close();
+    }
 };
 
 void menu() {
@@ -88,8 +119,10 @@ void menu() {
         << "Enter your choice: ";
 }
 
+
 int main() {
     TaskManager user_task_list;
+    user_task_list.load_tasks("/*file path*/");
     int choice = 5;
     do {
         menu();
@@ -108,6 +141,7 @@ int main() {
             user_task_list.remove_task();
             break;
         case 5:
+            user_task_list.save_tasks("/*file path*/");
             cout << "Exiting..." << endl;
             break;
         default:
