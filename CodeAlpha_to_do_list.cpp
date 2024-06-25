@@ -115,15 +115,16 @@ void menu() {
         << "2. View tasks\n"
         << "3. Complete task\n"
         << "4. Remove task\n"
-        << "5. Exit\n"
+        << "5. Save & Exit\n"
+        << "6. Exit without saving\n"
         << "Enter your choice: ";
 }
 
 
 int main() {
     TaskManager user_task_list;
-    user_task_list.load_tasks("/*file path*/");
-    int choice = 5;
+    user_task_list.load_tasks("C:\ Users\ awaad\ OneDrive\ Desktop \ My Projects \ C++ \ to_do_list.txt");
+    int choice = 6;
     do {
         menu();
         cin >> choice; cout << endl;
@@ -141,13 +142,16 @@ int main() {
             user_task_list.remove_task();
             break;
         case 5:
-            user_task_list.save_tasks("/*file path*/");
+            user_task_list.save_tasks("C:\ Users\ awaad\ OneDrive\ Desktop \ My Projects \ C++ \ to_do_list.txt");
+            cout << "Exiting..." << endl;
+            break;
+        case 6:
             cout << "Exiting..." << endl;
             break;
         default:
             cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 5);
+    } while (choice != 5 && choice != 6);
     return 0;
 }
 
