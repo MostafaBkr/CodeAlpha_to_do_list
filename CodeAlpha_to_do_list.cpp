@@ -47,7 +47,7 @@ public:
         cout << "\nTasks:" << endl;
         for (size_t i = 0; i < task_list.size(); ++i) {
             cout << i + 1 << ". " << task_list[i];
-            if (completed[i] == true) {
+            if (completed[i]) {
                 cout << " [Completed]" << endl;
             }
             else {
@@ -123,7 +123,7 @@ void menu() {
 
 int main() {
     TaskManager user_task_list;
-    user_task_list.load_tasks("to_do_list.txt");
+    user_task_list.load_tasks(R"(to_do_list.txt)");
     int choice = 6;
     do {
         menu();
@@ -142,7 +142,7 @@ int main() {
             user_task_list.remove_task();
             break;
         case 5:
-            user_task_list.save_tasks("to_do_list.txt");
+            user_task_list.save_tasks(R"(to_do_list.txt)");
             cout << "Exiting..." << endl;
             break;
         case 6:
@@ -154,4 +154,3 @@ int main() {
     } while (choice != 5 && choice != 6);
     return 0;
 }
-
