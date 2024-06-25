@@ -23,38 +23,28 @@ SOFTWARE.
 */    
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
-
-const int MAX_TASKS = 100;
 
 class TaskManager {
 private:
-    string task_list[MAX_TASKS];
-    bool completed[MAX_TASKS];
-    int num_tasks;
+    vector<string> task_list;
+    vector<bool> completed;
+
 public:
-    TaskManager() : num_tasks(0) {
-        for (int i = 0; i < MAX_TASKS; i++) {
-            completed[i] = false;
-        }
-    }
-
     void insert_task() {
-        if (num_tasks < MAX_TASKS) {
-            cin.ignore();
-            cout << "Enter task " << num_tasks + 1 << ": ";
-            getline(cin, task_list[num_tasks]);
-            num_tasks++;
-            cout << endl;
-        }
-        else {
-            cout << "Task list is full. Cannot add more tasks.\n";
-        }
+        string task;
+        cin.ignore();
+        cout << "Enter task " << task_list.size() + 1 << ": ";
+        getline(cin, task);
+        task_list.push_back(task);
+        completed.push_back(false);
+        cout << endl;
     }
 
-    void view_tasks() {
+    void view_tasks() const {
         cout << "\nTasks:" << endl;
-        for (int i = 0; i < num_tasks; ++i) {
+        for (size_t i = 0; i < task_list.size(); ++i) {
             cout << i + 1 << ". " << task_list[i]
                 << (completed[i] ? " [Completed]" : "") << endl;
         }
@@ -64,7 +54,7 @@ public:
         int task_num;
         cout << "Enter task number to mark as completed: ";
         cin >> task_num;
-        if (task_num > 0 && task_num <= num_tasks) {
+        if (task_num > 0 && task_num <= task_list.size()) {
             completed[task_num - 1] = true;
             cout << "Task " << task_num << " marked as completed." << endl;
         }
@@ -74,18 +64,13 @@ public:
     }
 
     void remove_task() {
-        int task_number;
+        int task_num;
         cout << "Enter task number to remove: ";
-        cin >> task_number;
-        if (task_number > 0 && task_number <= num_tasks) {
-            for (int i = task_number - 1; i < num_tasks - 1; ++i) {
-                task_list[i] = task_list[i + 1];
-                completed[i] = completed[i + 1];
-            }
-            task_list[num_tasks - 1].clear();
-            completed[num_tasks - 1] = false;
-            num_tasks--;
-            cout << "Task " << task_number << " removed." << endl;
+        cin >> task_num;
+        if (task_num > 0 && task_num <= task_list.size()) {
+            task_list.erase(task_list.begin() + task_num - 1);
+            completed.erase(completed.begin() + task_num - 1);
+            cout << "Task " << task_num << " removed." << endl;
         }
         else {
             cout << "Invalid task number." << endl;
@@ -105,7 +90,7 @@ void menu() {
 
 int main() {
     TaskManager user_task_list;
-    int choice = 5;
+    int choice;
     do {
         menu();
         cin >> choice; cout << endl;
@@ -131,3 +116,4 @@ int main() {
     } while (choice != 5);
     return 0;
 }
+
