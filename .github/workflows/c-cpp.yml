@@ -1,0 +1,21 @@
+name: C++ Compile and Run
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up C++ environment
+      run: sudo apt-get install -y g++
+
+    - name: Compile CodeAlpha_to_do_list.cpp
+      run: g++ -o CodeAlpha_to_do_list CodeAlpha_to_do_list.cpp
+
+    - name: Run the executable
+      run: ./CodeAlpha_to_do_list
