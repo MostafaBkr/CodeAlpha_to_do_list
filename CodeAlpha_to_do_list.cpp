@@ -26,6 +26,7 @@ SOFTWARE.
 #include <fstream>
 #include <string>
 #include <vector>
+#include <limits>
 using namespace std;
 
 class TaskManager {
