@@ -20,7 +20,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/    
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -60,12 +61,21 @@ public:
         int task_num;
         cout << "Enter task number to mark as completed: ";
         cin >> task_num;
+        while (true) {
+            if (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+            else {
+                break;
+            }
+        }
         if (task_num > 0 && task_num <= task_list.size()) {
             completed[task_num - 1] = true;
             cout << "Task " << task_num << " marked as completed." << endl;
         }
         else {
-            cout << "Invalid task number." << endl;
+            cout << "\nInvalid task number. Please try again." << endl;
         }
     }
 
@@ -73,13 +83,22 @@ public:
         int task_num;
         cout << "Enter task number to remove: ";
         cin >> task_num;
+        while (true) {
+            if (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+            else {
+                break;
+            }
+        }
         if (task_num > 0 && task_num <= task_list.size()) {
             task_list.erase(task_list.begin() + task_num - 1);
             completed.erase(completed.begin() + task_num - 1);
             cout << "Task " << task_num << " removed." << endl;
         }
         else {
-            cout << "Invalid task number." << endl;
+            cout << "\nInvalid task number. Please try again." << endl;
         }
     }
     void load_tasks(const string& filepath) {
@@ -123,34 +142,35 @@ void menu() {
 
 int main() {
     TaskManager user_task_list;
-    user_task_list.load_tasks(R"(to_do_list.txt)");
-    int choice = 6;
+    user_task_list.load_tasks(R"(C:\Users\awaad\OneDrive\Desktop\My Projects\C++\to_do_list.txt)");
+    string choice = "6";
     do {
         menu();
         cin >> choice; cout << endl;
-        switch (choice) {
-        case 1:
+        if (choice == "1") {
             user_task_list.insert_task();
-            break;
-        case 2:
+        }
+        else if (choice == "2") {
             user_task_list.view_tasks();
-            break;
-        case 3:
+        }
+        else if (choice == "3") {
             user_task_list.complete_task();
-            break;
-        case 4:
+        }
+        else if (choice == "4") {
             user_task_list.remove_task();
-            break;
-        case 5:
-            user_task_list.save_tasks(R"(to_do_list.txt)");
+        }
+        else if (choice == "6") {
             cout << "Exiting..." << endl;
             break;
-        case 6:
+        }
+        else if (choice == "5") {
+            user_task_list.save_tasks(R"(C:\Users\awaad\OneDrive\Desktop\My Projects\C++\to_do_list.txt)");
             cout << "Exiting..." << endl;
             break;
-        default:
+        }
+        else {
             cout << "Invalid choice. Please try again." << endl;
         }
-    } while (choice != 5 && choice != 6);
+    } while (choice != "5" && choice != "6");
     return 0;
 }
